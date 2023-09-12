@@ -1,4 +1,7 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import { doc, onSnapshot } from "firebase/firestore";
+import {db} from "../firebase";
+import { AuthContext } from "../context/AuthContext";
 
 const Chats = () => {
   return (
