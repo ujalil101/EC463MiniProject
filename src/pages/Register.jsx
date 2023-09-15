@@ -7,9 +7,11 @@ import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link} from 'react-router-dom';
 const Register = () => {
   const [err, setErr] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const displayName = e.target[0].value;
     const email = e.target[1].value;
@@ -17,50 +19,42 @@ const Register = () => {
     const file = e.target[3].files[0];
 
     try {
+      //Create user
       const res = await createUserWithEmailAndPassword(auth, email, password);
 
-      const storageRef = ref(storage, displayName);
-      const uploadTask = uploadBytesResumable(storageRef, file);
+      //Create a unique image name
+      const date = new Date().getTime();
+      const storageRef = ref(storage, `${displayName + date}`);
 
-      // Use promise syntax for upload progress and completion
-      await new Promise((resolve, reject) => {
-        uploadTask.on('state_changed',
-          (snapshot) => {
-          },
-          (error) => {
-            console.error("Error uploading file:", error);
+      await uploadBytesResumable(storageRef, file).then(() => {
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          try {
+            //Update profile
+            await updateProfile(res.user, {
+              displayName,
+              photoURL: downloadURL,
+            });
+            //create user on firestore
+            await setDoc(doc(db, "users", res.user.uid), {
+              uid: res.user.uid,
+              displayName,
+              email,
+              photoURL: downloadURL,
+            });
+
+            //create empty user chats on firestore
+            await setDoc(doc(db, "userChats", res.user.uid), {});
+            navigate("/");
+          } catch (err) {
+            console.log(err);
             setErr(true);
-            reject(error);
-          },
-          async () => {
-            try {
-              const downloadURL = await getDownloadURL(storageRef);
-              await updateProfile(res.user, {
-                displayName,
-                photoURL: downloadURL,
-              });
-              await setDoc(doc(db, "users", res.user.uid), {
-                uid: res.user.uid,
-                displayName,
-                email,
-                photoURL: downloadURL,
-              });
-              await setDoc(doc(db, "userChats", res.user.uid), {});
-              navigate("/")
-
-              resolve();
-            } catch (error) {
-              console.error("Error getting download URL:", error);
-              setErr(true);
-              reject(error);
-            }
+            setLoading(false);
           }
-        );
+        });
       });
-
     } catch (err) {
       setErr(true);
-      console.error(err);
+      setLoading(false);
     }
   };
 
@@ -70,23 +64,26 @@ const Register = () => {
         <span className="logo">ENG Chat</span>
         <span className="title">Register</span>
         <form onSubmit={handleSubmit}>
-          <input type="text" placeholder="display name"/> 
-          <input type="email" placeholder="email"/> 
-          <input type="password" placeholder="password"/> 
-          <input style={{display:"none"}} type="file" id="file"/>
+          <input required type="text" placeholder="display name" />
+          <input required type="email" placeholder="email" />
+          <input required type="password" placeholder="password" />
+          <input required style={{ display: "none" }} type="file" id="file" />
           <label htmlFor="file">
             <img src={Add} alt="" />
-            <span>Add an Avatar</span>    
-          </label> 
-          <button>Sign up</button>
+            <span>Add an image</span>
+          </label>
+          <button disabled={loading}>Sign up</button>
+          {loading && "Uploading and compressing the image please wait..."}
           {err && <span>Something went wrong</span>}
-          
-          <pre>{err.message}</pre>
         </form>
-        <p>You do have an account? <Link to="/login">Login</Link></p>
+        <p>
+          You do have an account? <Link to="/register">Login</Link>
+        </p>
       </div>
     </div>
-  )
+  );
 };
+
+
 
 export default Register;
