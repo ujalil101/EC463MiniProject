@@ -3,8 +3,6 @@
 
 A real-time chat application built with React. This application allows users to communicate with each other in real-time, making it ideal for both social and business use cases. It's designed to be user-friendly and easily deployable for various purposes.
 
-## Table of Contents
-
 ## Demo
 
 https://github.com/ujalil101/EC463MiniProject/assets/74789609/8af06b88-cff8-4106-81a6-94b421ec98f2
