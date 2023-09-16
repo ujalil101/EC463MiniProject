@@ -174,7 +174,6 @@
         }
         .chat{
             flex:2;
-
             .chatInfo {
                 height: 50px;
                 background-color: #7b0000;
@@ -187,11 +186,13 @@
             .chatIcons{
                 display: flex;
                 gap: 10px;
-
                 img{
                     height: 24px;
                     cursor: pointer;
                     filter: brightness(0) invert(1);
+                }
+                .FT{
+                    filter: invert(80%) sepia(23%) saturate(5856%) hue-rotate(73deg) brightness(100%) contrast(78%);
                 }
             }
             .messages {
@@ -245,7 +246,7 @@
               }
             .input{
                 height: 50px;
-                background-color: lightgrey;
+                background-color: white;
                 padding: 10px;
                 display: flex;
                 align-items: center;
@@ -258,6 +259,7 @@
                     font-size: 18px;
                     &::placeholder{
                         color: #CC0000;
+                        opacity: .5;
                     }
                 }
                 .send{
