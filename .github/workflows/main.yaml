@@ -13,6 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up Git
+        run: |
+          git config user.email "ujalil929@gmail.com"
+          git config user.name "ujalil101"
+
       - name: Push to GitHub
         run: |
           git add .
