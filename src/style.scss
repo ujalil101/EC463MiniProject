@@ -182,7 +182,7 @@
                     }
                     p{
                         font-size:14px;
-                        color: lightgrey;
+                        color: white;
                     }
                 }
             }
@@ -197,7 +197,10 @@
                 align-items: center;
                 justify-content: space-between;
                 padding: 10px;
-                color: lightgray;
+                color: white;
+                font-size: 20px;
+                
+                
             }
             .chatIcons{
                 display: flex;
@@ -215,18 +218,18 @@
                 padding: 10px;
                 height: calc(100% - 160px);
                 overflow: scroll;
-        
+              
                 .message {
                   display: flex;
                   gap: 20px;
                   margin-bottom: 20px;
-        
+              
                   .messageInfo {
                     display: flex;
                     flex-direction: column;
-                    color: gray;
+                    color: white;
                     font-weight: 300;
-        
+              
                     img {
                       width: 40px;
                       height: 40px;
@@ -234,38 +237,43 @@
                       object-fit: cover;
                     }
                   }
+              
+              
                   .messageContent {
                     max-width: 80%;
                     display: flex;
                     flex-direction: column;
                     gap: 10px;
-        
+              
                     p {
-                      background-color: #7b0000;
+                      background-color: rgb(103, 101, 101);
                       padding: 10px 20px;
-                      border-radius: 0px 10px 10px 10px;
+                      border-radius: 10px 10px 10px 0px;
                       max-width: max-content;
+                      color: white;
                     }
-        
+              
                     img {
                       width: 50%;
                     }
                   }
-        
+              
                   &.owner {
                     flex-direction: row-reverse;
-        
+              
                     .messageContent {
                       align-items: flex-end;
+              
                       p {
-                        background-color:  #7b0000;
+                        background-color: #7b0000;
                         color: white;
-                        border-radius: 10px 0px 10px 10px;
+                        border-radius: 0px 10px 0px 10px;
                       }
                     }
                   }
                 }
               }
+              
             
             .input{
                 height: 50px;

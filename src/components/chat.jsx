@@ -1,4 +1,3 @@
-import Add from '../image/image.png';
 import Cam from '../image/video-camera.png';
 import More from '../image/more.png';
 import React, { useContext } from "react";
@@ -17,7 +16,7 @@ const Chat = () => {
       <div className='chatInfo'>
         <span>{data.user?.displayName}</span>
         <div className='chatIcons'>
-          <img src={Add} alt='' />
+
           <img src={Cam} alt='' />
           <img src={More} alt='' />
         </div>

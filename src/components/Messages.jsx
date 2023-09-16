@@ -10,23 +10,27 @@ const Messages = () => {
 
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
-      doc.exists() && setMessages(doc.data().messages);
+      if (doc.exists()) {
+        setMessages(doc.data().messages);
+      } else {
+        setMessages([]); // Set messages to an empty array if the document doesn't exist
+      }
     });
     return () => {
       unSub();
     };
   }, [data.chatId]);
 
-  console.log(messages)
+  console.log(messages);
 
   return (
     <div className='messages'>
-        {messages.map((m) => {
-          <Message message = {m} key = {m.id} />
-        })}
-       
+      {messages &&
+        messages.map((m) => (
+          <Message message={m} key={m.id} />
+        ))}
     </div>
   );
 };
 
-export default Messages
+export default Messages;
