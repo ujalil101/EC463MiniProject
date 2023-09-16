@@ -3,7 +3,7 @@ name: Push to GitHub
 on:
   push:
     branches:
-      - main # Change this to your desired branch
+      - origin/main 
 
 jobs:
   push:
