@@ -1,0 +1,20 @@
+name: Push to GitHub
+
+on:
+  push:
+    branches:
+      - main # Change this to your desired branch
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Push to GitHub
+        run: |
+          git add .
+          git commit -m "Auto commit by GitHub Actions"
+          git push
